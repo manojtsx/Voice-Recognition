@@ -1,0 +1,44 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body{
+  height: 100vh;
+  background-color: rgb(246, 232, 232);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.main-container{
+  width: 100%;
+  display: grid;
+  row-gap: 10px;
+  background-color: rgb(244, 239, 239);
+  padding: 30px 20px;
+  border-radius: 10px;
+  max-width: 400px;
+}
+.main-container > h1{
+  font-size:2rem;
+}
+.main-content{
+  min-height:200px;
+  background-color: rgb(255, 255, 255);
+  font-family: 'Times New Roman', Times, serif;
+}
+/* make a fluid container */
+.btn{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+
+}
+.btn button{
+  color: white;
+  background-color: rgb(29, 205, 13);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
