@@ -3,10 +3,12 @@ import "./App.css";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
+import language from "./data";
 
 const App = () => {
   const { transcript, resetTranscript, browserSupportSpeechRecognition } =
     useSpeechRecognition();
+    const [languageCode, setLanguageCode] = useState("en-US");
   const isOnline = () => {
     const proxyUrl = "https://cors-anywhere.herokuapp.com/";
     const targetUrl = "https://www.sthamanoj.com.np";
@@ -22,7 +24,7 @@ const App = () => {
           await navigator.mediaDevices.getUserMedia({ audio: true });
           SpeechRecognition.startListening({
             continuous: true,
-            language: "ne-NP",
+            language: languageCode,
           });
         } catch (err) {
           window.alert("Microphone access denied.");
@@ -35,7 +37,7 @@ const App = () => {
     }
   };
   const stopListening = () => {
-    SpeechRecognition.stopListening();
+    SpeechRecognition.abortListening();
     window.alert("Stopped Listening");
   };
   const resetText = () => {
@@ -43,13 +45,33 @@ const App = () => {
   };
   const copyText = () => {
     navigator.clipboard.writeText(transcript);
+    if (transcript === "") {
+      window.alert("Nothing to copy");
+    }else{
+      window.alert("Copied"); 
+    }
+      
   };
+  const handleLanguageCode = (event) =>{
+    setLanguageCode(event.target.value);
+  }
+  useEffect(() =>{
+    SpeechRecognition.startListening({
+      continuous: true,
+      language: languageCode,
+    });
+  },[languageCode]);
   return (
     <div className="main-container">
       <h1>Nepali Speech to Text Converter</h1>
       <p>A React hook that converts the Speech to the Text.</p>
       <div className="main-content">{transcript}</div>
       <div className="btn">
+        <select onChange={handleLanguageCode}>
+          {language.map((lang) => (
+            <option value={lang.code} key={lang.id}>{lang.name}</option>
+          ))}
+        </select>
         <button onClick={copyText}>Copy</button>
         <button onClick={startListening}>Start Listening</button>
         <button onClick={stopListening}>Stop Listening</button>
